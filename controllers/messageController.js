@@ -1,9 +1,4 @@
-// RANDOM_SHUFFLE Cipher Algorithm 
-// Convert message to array of characters 
-// Repeat 5000 times: 
-// pick two different random indexes - if they are the same: redo 
-// swap their characters 
-// Join back to string 
+
 
 export const encryptMessage = async (req, res) => {
   try {
