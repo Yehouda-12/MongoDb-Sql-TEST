@@ -14,10 +14,10 @@ export async function initMongoDb() {
     await mongocClient.connect();
     mongoConn = mongocClient.db(DB_NAME);
     
-    const productsCollection = mongoConn.collection('users');
+    const usersCollection = mongoConn.collection('users');
     
    
-    await productsCollection.createIndex({ username: 1 }, { unique: true });
+    await usersCollection.createIndex({ username: 1 }, { unique: true });
     
     console.log("Database initialized and unique index created on 'username' field");
   } catch (error) {

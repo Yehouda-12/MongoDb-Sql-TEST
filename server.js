@@ -1,11 +1,12 @@
 import express from 'express'
-// import products from './routes/products.js'
-// import orders from "./routes/orders.js"
+import register from './routes/authRoute.js'
+import message from './routes/messageRoute.js'
+import users from './routes/usersRoute.js'
 import { getMongoDbConnection, initMongoDb } from "./utils/mongoDb.js";
 import { getMysqlConnection, initSqlDb } from "./utils/mysql.js";
 
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
 
 app.use(express.json());
 
@@ -22,8 +23,9 @@ app.use((req, res, next) => {
 });
 
 
-// app.use("/api/products",products );
-// app.use('/api/orders',orders)
+app.use("/api/auth", register );
+app.use("/api/messages",message );
+app.use('/api/users',users)
 
 
 app.listen(PORT, async () => {
