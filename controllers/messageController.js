@@ -77,19 +77,7 @@ export const decryptMessage = async (req, res) => {
   }
 };
 
-// GET /api/messages 
-// Basic Auth required - user needs to provide username and password, and must be 
-// authenticated before allowed to the actual endpoint- you can pass username and password 
-// in body/headers/query params 
-// Response 200 
-// { 
-// } 
-// "items": [ 
-// { "id": 12, "cipherType": "ATBASH", "encryptedText": "..." } 
-// ] 
-// Description 
-// Return all messages of the given username. Pass the username in body/path query/path 
-// param 
+
 export const getMessages = async (req,res)=>{
     try {
         const mysqlDb = req.mysqlConn;
@@ -112,7 +100,7 @@ export const getMessages = async (req,res)=>{
             encryptedText: row.encrypted_text
         }));
         res.status(200).json({ items });
-        
+
 
     } catch (err){
         console.log(err);
