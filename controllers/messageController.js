@@ -77,3 +77,46 @@ export const decryptMessage = async (req, res) => {
   }
 };
 
+// GET /api/messages 
+// Basic Auth required - user needs to provide username and password, and must be 
+// authenticated before allowed to the actual endpoint- you can pass username and password 
+// in body/headers/query params 
+// Response 200 
+// { 
+// } 
+// "items": [ 
+// { "id": 12, "cipherType": "ATBASH", "encryptedText": "..." } 
+// ] 
+// Description 
+// Return all messages of the given username. Pass the username in body/path query/path 
+// param 
+export const getMessages = async (req,res)=>{
+    try {
+        const mysqlDb = req.mysqlConn;
+        const mongoDb = req.mongoDbConn;
+        const { username, password } = req.headers;
+        const usersCollection = mongoDb.collection("users");
+        const user = await usersCollection.findOne({ username, password });
+        if (!user) {
+      return res
+        .status(401)
+        .json({ message: "no user wiyth this name or password" });
+    }
+        const [rows] = await mysqlDb.query(
+        `SELECT * FROM messages WHERE username = ?`,
+        [username]
+    );
+        const items = rows.map(row=>({
+            id: row.id,
+            cipherType: row.cipher_type,
+            encryptedText: row.encrypted_text
+        }));
+        res.status(200).json({ items });
+        
+
+    } catch (err){
+        console.log(err);
+        res.status(500).json({ message: "internal server error" });
+        
+    }
+}
